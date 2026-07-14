@@ -1,0 +1,11 @@
+1. Descomprime este ZIP.
+2. En tu repositorio de GitHub elimina README.md y cualquier carpeta anterior de la pagina.
+3. Sube directamente a la raiz estos archivos:
+   - index.html
+   - 404.html
+   - .nojekyll
+4. En Settings > Pages elige:
+   Source: Deploy from a branch
+   Branch: main
+   Folder: /(root)
+5. Guarda y espera unos minutos. Abre el enlace usando el boton Visit site.
