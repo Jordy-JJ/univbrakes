@@ -12,9 +12,3 @@ Configuración de GitHub Pages:
 
 Dirección esperada:
 https://jordy-jj.github.io/univbrakes/
-
-Actualización: se agregaron las categorías Pagid Racing y Discos GiroDisc.
-
-ACTUALIZACIÓN DE MINIATURA:
-- favicon.ico, favicon.png y apple-touch-icon.png muestran el símbolo de disco/caliper de UNIVBRAKES en la pestaña del navegador.
-- Tras subir, usa Ctrl+F5 o abre una ventana privada para evitar la caché del favicon anterior.
