@@ -3307,6 +3307,51 @@ h3{letter-spacing:-0.035em;line-height:.74;}
 }
 </style>
 
+
+<style id="ajuste-tarjetas-info-v2-2026-09-14">
+.quick-stats.info-strip{
+  grid-template-columns:repeat(4,minmax(220px,1fr)) !important;
+  gap:18px !important;
+  max-width:1380px !important;
+  padding:0 5% 58px !important;
+  align-items:stretch !important;
+}
+.quick-stats.info-strip .stat-item{
+  min-height:132px !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,.07) !important;
+  border-radius:20px !important;
+  padding:22px 24px !important;
+  box-shadow:0 12px 28px rgba(0,0,0,.08) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+}
+.quick-stats.info-strip .stat-item small{
+  margin-bottom:7px !important;
+  font-size:13px !important;
+  line-height:1.2 !important;
+}
+.quick-stats.info-strip .stat-item strong{
+  font-size:19px !important;
+  line-height:1.28 !important;
+  letter-spacing:-.01em !important;
+}
+.quick-stats.info-strip .stat-item span{
+  margin-top:6px !important;
+  font-size:14px !important;
+  line-height:1.45 !important;
+  max-width:30ch !important;
+}
+@media(max-width:1050px){
+  .quick-stats.info-strip{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+}
+@media(max-width:700px){
+  .quick-stats.info-strip{grid-template-columns:1fr !important; padding-left:5% !important; padding-right:5% !important;}
+  .quick-stats.info-strip .stat-item{min-height:118px !important; padding:20px !important;}
+}
+</style>
+
 </head>
 <body>
 <svg aria-hidden="true" class="svg-sprite" focusable="false">
