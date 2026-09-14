@@ -1,0 +1,234 @@
+name: Aplicar ajustes esteticos aprobados
+
+on:
+  push:
+    branches:
+      - ajustes-esteticos-conservadores
+
+permissions:
+  contents: write
+
+jobs:
+  aplicar:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar rama
+        uses: actions/checkout@v4
+        with:
+          ref: ajustes-esteticos-conservadores
+          fetch-depth: 0
+
+      - name: Aplicar solo galeria y franja informativa
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('index.html')
+          html = path.read_text(encoding='utf-8')
+          marker = 'id="ajustes-esteticos-aprobados-2026-09-14"'
+          if marker in html:
+              print('Los ajustes ya estaban aplicados.')
+              raise SystemExit(0)
+
+          css = r'''
+          <style id="ajustes-esteticos-aprobados-2026-09-14">
+          /* Solo dos cambios aprobados: carrusel superior + tarjetas de informacion. */
+          .quick-stats.info-strip{
+            display:grid !important;
+            grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+            gap:12px !important;
+            max-width:1220px !important;
+            margin:0 auto !important;
+            padding:0 7% 54px !important;
+          }
+          .quick-stats.info-strip .stat-item{
+            min-width:0 !important;
+            background:#fff !important;
+            border:1px solid rgba(0,0,0,.07) !important;
+            border-radius:16px !important;
+            padding:15px 16px !important;
+            box-shadow:0 10px 24px rgba(0,0,0,.07) !important;
+            text-align:left !important;
+          }
+          .quick-stats.info-strip .stat-item + .stat-item{
+            border-left:1px solid rgba(0,0,0,.07) !important;
+          }
+          .quick-stats.info-strip .stat-item small{
+            display:block !important;
+            margin:0 0 6px !important;
+            color:var(--red) !important;
+            font-family:var(--font-body) !important;
+            font-size:11px !important;
+            line-height:1.2 !important;
+            font-weight:900 !important;
+            letter-spacing:.08em !important;
+            text-transform:uppercase !important;
+          }
+          .quick-stats.info-strip .stat-item strong{
+            display:block !important;
+            margin:0 !important;
+            color:#171717 !important;
+            font-family:var(--font-body) !important;
+            font-size:13px !important;
+            line-height:1.35 !important;
+            letter-spacing:0 !important;
+            text-transform:none !important;
+          }
+          .quick-stats.info-strip .stat-item span{
+            display:block !important;
+            margin-top:4px !important;
+            color:#555 !important;
+            font-family:var(--font-body) !important;
+            font-size:11px !important;
+            line-height:1.35 !important;
+            font-weight:700 !important;
+            letter-spacing:0 !important;
+            text-transform:none !important;
+          }
+
+          .hero-media.service-carousel{
+            width:100% !important;
+            max-width:100% !important;
+            min-height:0 !important;
+            padding:14px 14px 94px !important;
+            border:0 !important;
+            border-radius:24px !important;
+            background:#171717 !important;
+            box-shadow:0 18px 40px rgba(0,0,0,.16) !important;
+            overflow:hidden !important;
+          }
+          .service-carousel-track{
+            width:100% !important;
+            height:clamp(330px,48vw,560px) !important;
+            min-height:clamp(330px,48vw,560px) !important;
+            border-radius:18px !important;
+            overflow:hidden !important;
+            background:#0f0f0f !important;
+          }
+          .service-carousel-slide{
+            border-radius:18px !important;
+            overflow:hidden !important;
+          }
+          .service-carousel-slide img{
+            width:100% !important;
+            height:100% !important;
+            max-height:none !important;
+            object-fit:cover !important;
+          }
+          .service-carousel-thumbs{
+            position:absolute !important;
+            left:14px !important;
+            right:14px !important;
+            bottom:14px !important;
+            display:flex !important;
+            align-items:center !important;
+            gap:9px !important;
+            overflow-x:auto !important;
+            overflow-y:hidden !important;
+            padding:2px 0 !important;
+            scroll-snap-type:x proximity !important;
+            scrollbar-width:thin !important;
+            -webkit-overflow-scrolling:touch !important;
+          }
+          .service-carousel-thumb{
+            flex:0 0 96px !important;
+            width:96px !important;
+            height:66px !important;
+            min-width:96px !important;
+            padding:0 !important;
+            border:2px solid transparent !important;
+            border-radius:11px !important;
+            overflow:hidden !important;
+            opacity:.72 !important;
+            background:#2a2a2a !important;
+            scroll-snap-align:start !important;
+            box-shadow:none !important;
+          }
+          .service-carousel-thumb.active{
+            border-color:var(--yellow) !important;
+            opacity:1 !important;
+          }
+          .service-carousel-thumb img{
+            width:100% !important;
+            height:100% !important;
+            object-fit:cover !important;
+          }
+          .service-carousel-dots{
+            display:none !important;
+          }
+          .service-carousel-arrow{
+            width:46px !important;
+            height:46px !important;
+            font-size:32px !important;
+            transform:translateY(-38px) !important;
+            background:rgba(17,17,17,.82) !important;
+            color:#fff !important;
+            border:1px solid rgba(255,255,255,.18) !important;
+          }
+          .service-carousel-arrow:hover{
+            transform:translateY(-38px) scale(1.04) !important;
+          }
+
+          @media(max-width:900px){
+            .quick-stats.info-strip{
+              grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+              padding-left:5% !important;
+              padding-right:5% !important;
+            }
+          }
+          @media(max-width:620px){
+            .quick-stats.info-strip{
+              grid-template-columns:1fr !important;
+            }
+            .hero-media.service-carousel{
+              padding:10px 10px 82px !important;
+              border-radius:18px !important;
+            }
+            .service-carousel-track{
+              height:270px !important;
+              min-height:270px !important;
+              border-radius:14px !important;
+            }
+            .service-carousel-thumbs{
+              left:10px !important;
+              right:10px !important;
+              bottom:10px !important;
+              gap:8px !important;
+            }
+            .service-carousel-thumb{
+              flex-basis:82px !important;
+              width:82px !important;
+              min-width:82px !important;
+              height:56px !important;
+            }
+            .service-carousel-arrow{
+              width:40px !important;
+              height:40px !important;
+              font-size:28px !important;
+              transform:translateY(-32px) !important;
+            }
+            .service-carousel-arrow:hover{
+              transform:translateY(-32px) scale(1.04) !important;
+            }
+          }
+          </style>
+          '''
+
+          if '</head>' not in html:
+              raise SystemExit('No se encontro </head> en index.html')
+          html = html.replace('</head>', css + '\n</head>', 1)
+          path.write_text(html, encoding='utf-8')
+          print('Ajustes esteticos insertados correctamente.')
+
+      - name: Guardar cambios en la rama
+        run: |
+          if git diff --quiet; then
+            echo "No hay cambios por guardar"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Aplicar galeria limpia y tarjetas de informacion"
+          git push origin HEAD:ajustes-esteticos-conservadores
