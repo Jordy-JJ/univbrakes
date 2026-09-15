@@ -3796,6 +3796,47 @@ h3{letter-spacing:-0.035em;line-height:.74;}
 }
 </style>
 
+
+<style id="ajuste-logo-header-linea-2026-09-15">
+/* Reduce el bloque blanco del logo para dejar visible la linea inferior del header. */
+.nav .brand{
+  padding:4px 10px 3px !important;
+  border-radius:16px !important;
+  min-height:0 !important;
+  margin-bottom:8px !important;
+  box-shadow:0 8px 18px rgba(0,0,0,.06) !important;
+}
+.nav .brand .logo{
+  width:clamp(300px,24vw,390px) !important;
+  max-width:56vw !important;
+  max-height:68px !important;
+  height:auto !important;
+  object-fit:contain !important;
+}
+@media(max-width:920px){
+  .nav .brand{
+    padding:4px 8px 2px !important;
+    margin-bottom:7px !important;
+  }
+  .nav .brand .logo{
+    width:270px !important;
+    max-height:62px !important;
+  }
+}
+@media(max-width:620px){
+  .nav .brand{
+    padding:3px 7px 2px !important;
+    margin-bottom:6px !important;
+    border-radius:14px !important;
+  }
+  .nav .brand .logo{
+    width:225px !important;
+    max-width:62vw !important;
+    max-height:56px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <svg aria-hidden="true" class="svg-sprite" focusable="false">
