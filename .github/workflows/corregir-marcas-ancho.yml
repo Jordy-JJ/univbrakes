@@ -1,0 +1,121 @@
+name: Corregir ancho de marcas
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  aplicar:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Corregir seccion de marcas
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          html = p.read_text(encoding='utf-8')
+          marker = 'id="ajuste-marcas-ancho-2026-09-15"'
+          if marker in html:
+              raise SystemExit(0)
+          css = r'''
+          <style id="ajuste-marcas-ancho-2026-09-15">
+          /* La sección de marcas estaba ocupando una sola celda del grid de productos. */
+          .product-grid > .brand-note,
+          #productos .brand-note{
+            grid-column:1 / -1 !important;
+            width:100% !important;
+            max-width:none !important;
+            margin:30px 0 0 !important;
+            padding:30px !important;
+          }
+          #productos .brand-note-head{
+            max-width:1100px !important;
+            margin:0 auto 26px !important;
+          }
+          #productos .brand-grid{
+            width:100% !important;
+            display:grid !important;
+            grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+            gap:24px !important;
+            margin-top:22px !important;
+          }
+          #productos .brand-card{
+            width:100% !important;
+            min-width:0 !important;
+            border-radius:24px !important;
+          }
+          #productos .brand-card-media{
+            min-height:330px !important;
+            display:flex !important;
+            align-items:center !important;
+            justify-content:center !important;
+            padding:0 !important;
+            background:linear-gradient(180deg,#fafafa,#eeeeee) !important;
+          }
+          #productos .brand-card-media a{
+            width:100% !important;
+            height:100% !important;
+            display:flex !important;
+            align-items:center !important;
+            justify-content:center !important;
+          }
+          #productos .brand-card-media img{
+            width:100% !important;
+            height:330px !important;
+            object-fit:contain !important;
+            object-position:center !important;
+            padding:10px !important;
+          }
+          #productos .brand-card-content{
+            padding:20px 20px 24px !important;
+            gap:12px !important;
+          }
+          #productos .brand-card h3{
+            font-size:clamp(30px,2.3vw,40px) !important;
+          }
+          #productos .brand-card p{
+            font-size:15px !important;
+            line-height:1.55 !important;
+          }
+          @media(max-width:1100px){
+            #productos .brand-grid{
+              grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+            }
+          }
+          @media(max-width:700px){
+            .product-grid > .brand-note,
+            #productos .brand-note{
+              padding:18px 14px !important;
+              margin-top:22px !important;
+            }
+            #productos .brand-grid{
+              grid-template-columns:1fr !important;
+              gap:18px !important;
+            }
+            #productos .brand-card-media,
+            #productos .brand-card-media img{
+              min-height:0 !important;
+              height:280px !important;
+            }
+          }
+          </style>
+          '''
+          html = html.replace('</head>', css + '\n</head>', 1)
+          p.write_text(html, encoding='utf-8')
+      - name: Guardar cambios
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Corregir ancho y escala de la seccion de marcas"
+          git push origin HEAD:main
